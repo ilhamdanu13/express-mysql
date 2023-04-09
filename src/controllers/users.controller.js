@@ -13,15 +13,29 @@ const getAllUsers = async (req, res) => {
             serverMessage: error
         })
     }
+}
 
-   
+const getDetailUser = async (req, res) => {
+    const {id} = req.params
+    try {
+        const [data] = await usersModel.getDetailUser(id)
+        res.json({
+            message: 'Get detail user success',
+            data: data
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server error',
+            serverMessage: error
+        })
+    }
 }
 
 const createNewUser = async (req, res) => {
     const {body} = req
     try {
         await usersModel.createUser(body)
-        res.json({
+        res.status(201).json({
             message: 'Create new user success',
             data: body
         })
@@ -55,19 +69,22 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const {id} = req.params
-    res.json({
-        message: 'Delete user success',
-        data: {
-            id: id,
-            name: 'Danu',
-            email: 'danu@mail.com',
-            address: 'Medan'
-        }
-    })
+    try {
+        await usersModel.deleteUser(id)
+        res.json({
+            message: 'Delete user success',
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server error',
+            serverMessage: error
+        })
+    }
+
 }
 
 module.exports = {
-    getAllUsers, createNewUser, updateUser, deleteUser
+    getAllUsers, createNewUser, updateUser, deleteUser, getDetailUser
 }

@@ -4,6 +4,8 @@ const router = express.Router()
 
 // Read - GET
 router.get('/', userController.getAllUsers)
+// Read Detail - GET
+router.get('/:id', userController.getDetailUser)
 //Create - POST
 router.post('/', userController.createNewUser)
 // Update - PATCH
